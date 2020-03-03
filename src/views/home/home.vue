@@ -23,7 +23,7 @@
                 <div class="content_left_list" v-for="(item,index) in typeList" :key="index">
                     <div class="content_left_list_top">
                         <div class="content_left_list_top_title">{{item.name}}</div>
-                        <div class="more">更多</div>
+                        <div class="more" @click="more(item.id)">更多</div>
                     </div>
                     <div class="content_left_list_bottom">
                         <div
@@ -54,13 +54,6 @@
             <!-- 右边内容 -->
             <div class="content_right">
                 <!-- 右边内容 -->
-                <div class="broadcast">
-                    <el-carousel height="422px">
-                        <el-carousel-item v-for="(item,index) in broadcast" :key="index">
-                            <img class="broadcast_img" :src="item" />
-                        </el-carousel-item>
-                    </el-carousel>
-                </div>
                 <div class="recommendList">
                     <div class="recommendList_title">专题推荐</div>
                     <div
@@ -213,6 +206,14 @@ export default {
         // this.getRecommendList();
     },
     methods: {
+        more(id) {
+            this.$router.push({
+                name: "list",
+                query: {
+                    id: id
+                }
+            });
+        },
         //axios请求
         histories() {
             this.$api.get(
