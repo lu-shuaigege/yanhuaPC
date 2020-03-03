@@ -172,6 +172,18 @@ export default {
             color: #fff;
         }
     }
+    li:first-child {
+        width: 70px;
+        height: 30px;
+        border-radius: 3px;
+        border: solid 1px #e5e5e5;
+        a {
+            width: 70px;
+            height: 30px;
+            border-radius: 3px;
+            color: #999999;
+        }
+    }
     .active {
         width: 30px;
         height: 30px;
