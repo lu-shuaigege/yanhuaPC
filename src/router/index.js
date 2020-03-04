@@ -15,6 +15,22 @@ export const contentsRouter = [{
         },
         component: () => import('../views/home/home.vue')
     },
+    {
+        path: '/list',
+        name: 'list',
+        meta: {
+            title: '列表'
+        },
+        component: () => import('../views/list/list.vue')
+    },
+    {
+        path: '/detail',
+        name: 'detail',
+        meta: {
+            title: '详情'
+        },
+        component: () => import('../views/detail/detail.vue')
+    },
 ]
 
 const router = new VueRouter({

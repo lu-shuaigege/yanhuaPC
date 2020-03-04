@@ -26,6 +26,7 @@ export default {
     width: 100%;
     height: 100px;
     background-color: #ffffff;
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.05);
 
     .top_content {
         width: 1200px;
