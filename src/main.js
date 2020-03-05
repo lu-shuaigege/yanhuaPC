@@ -8,6 +8,15 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.use(ElementUI);
 
+// vant样式
+// https://youzan.github.io
+import 'vant/lib/index.css';
+import {
+    Toast
+} from 'vant';
+Vue.use(Toast)
+
+
 import api from './api/request'
 Vue.prototype.$api = api
 

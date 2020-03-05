@@ -7,7 +7,7 @@
             <el-carousel
                 indicator-position="none"
                 arrow="always"
-                :autoplay="false"
+                :autoplay="true"
                 type="card"
                 height="400px"
             >
@@ -30,6 +30,7 @@
                             class="content_left_list_bottom_item"
                             v-for="(item,indexs) in item.value"
                             :key="indexs"
+                            @click="gotodetail(item.id)"
                         >
                             <div class="notice" v-if="item.status==1">预告</div>
                             <div class="live" v-if="item.status==2">直播</div>
@@ -42,21 +43,9 @@
                                 <div class="time">{{item.date}}</div>
                                 <div class="content_left_list_bottom_item_bottom_down">
                                     <div class="content_anchor">播主：{{item.from}}</div>
-                                    <div
-                                        class="content_anchor_button"
-                                        v-if="item.status==1"
-                                        @click="gotodetail(item.id)"
-                                    >立即预约</div>
-                                    <div
-                                        class="content_anchor_button"
-                                        v-if="item.status==2"
-                                        @click="gotodetail(item.id)"
-                                    >进入直播</div>
-                                    <div
-                                        class="content_anchor_button"
-                                        v-if="item.status==3"
-                                        @click="gotodetail(item.id)"
-                                    >下载资料</div>
+                                    <div class="content_anchor_button" v-if="item.status==1">立即预约</div>
+                                    <div class="content_anchor_button" v-if="item.status==2">进入直播</div>
+                                    <div class="content_anchor_button" v-if="item.status==3">下载资料</div>
                                 </div>
                             </div>
                         </div>
@@ -218,11 +207,14 @@ export default {
         bottom
     },
     created() {
-        this.histories();
+        // this.histories();
         // this.getBanners();
         // this.getBroadcast();
         // this.getTypeList();
         // this.getRecommendList();
+    },
+    mounted() {
+        document.documentElement.scrollTop = 0;
     },
     methods: {
         more(id) {

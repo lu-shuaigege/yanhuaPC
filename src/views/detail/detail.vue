@@ -151,7 +151,7 @@ export default {
                 name: "智能制造/智能装备",
                 value: {
                     id: 1,
-                    image: require("@/assets/img/picture.png"),
+                    image: require("@/assets/img/banner1.png"),
                     title: "构建云+端感知平台，实现设备远程管理",
                     status: 1,
                     date: "2020-02-20  14:00",
@@ -190,6 +190,9 @@ export default {
         this.id = this.$route.query.id; //详情id，根据id获取详情
         console.log(this.id);
         // this.getDetail(this.id);
+    },
+    mounted() {
+        document.documentElement.scrollTop = 0;
     },
     methods: {
         selectProvimce(id) {
@@ -254,9 +257,36 @@ export default {
                 this.ispopup = 0;
             }
             if (isfrom == 1) {
+                if (!this.name) {
+                    this.$toast("请填写姓名");
+                    return;
+                }
+                if (!this.company) {
+                    this.$toast("请填写公司");
+                    return;
+                }
+                if (!this.title) {
+                    this.$toast("请填写职称");
+                    return;
+                }
+                let regphone = /^((0\d{2,3}-?\d{7,8})|(1[3456789]\d{9}))$/;
+                if (!regphone.test(this.tel)) {
+                    this.$toast("电话格式不正确");
+                    return;
+                }
+                if (!this.e_mail) {
+                    this.$toast("请填写电子邮箱");
+                    return;
+                }
+                let checkEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                if (!checkEmail.test(this.e_mail)) {
+                    this.$toast("电子邮箱格式不正确");
+                    return;
+                }
                 this.ispopup = 0;
             }
         },
+
         //详情数据
         getDetail(id) {
             console.log(id);
