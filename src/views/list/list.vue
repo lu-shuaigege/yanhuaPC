@@ -22,7 +22,10 @@
             <div class="content_left">
                 <div class="content_left_list">
                     <div class="content_left_list_top">
-                        <div class="content_left_list_top_title">首页>智能制造/智能装备</div>
+                        <div class="content_left_list_top_title">
+                            <div class="gotohome" @click="gotohome()">首页></div>
+                            <div class="over">智能制造/智能装备</div>
+                        </div>
                     </div>
                     <div class="content_left_list_bottom">
                         <div
@@ -72,7 +75,7 @@
                         class="list"
                         v-for="(item,index) in recommendList"
                         :key="index"
-                        @click="gotoDetail(item.id)"
+                        @click="goto(item.id)"
                     >
                         <div class="title">{{item.title}}</div>
                         <div class="anchor">播主：{{item.from}}</div>
@@ -221,6 +224,8 @@ export default {
         pagination
     },
     created() {
+        this.id = this.$route.query.id; //列表id
+        console.log(this.id);
         // this.getBanners();
         // this.getRecommendList();
         // this.getList();
@@ -232,6 +237,14 @@ export default {
                 query: {
                     id: id
                 }
+            });
+        },
+        goto() {
+            window.open("https://www.baidu.com/");
+        },
+        gotohome() {
+            this.$router.push({
+                name: "home"
             });
         },
         //分页组件向后台发送请求

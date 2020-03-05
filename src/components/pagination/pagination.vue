@@ -37,7 +37,7 @@ export default {
         display: {
             // 每页显示条数
             type: Number,
-            default: 10
+            default: 9 //视当前页面设计决定
         },
         currentPage: {
             // 当前页码

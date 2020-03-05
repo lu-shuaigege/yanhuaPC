@@ -7,7 +7,7 @@
             <el-carousel
                 indicator-position="none"
                 arrow="always"
-                :autoplay="true"
+                :autoplay="false"
                 type="card"
                 height="400px"
             >
@@ -42,9 +42,21 @@
                                 <div class="time">{{item.date}}</div>
                                 <div class="content_left_list_bottom_item_bottom_down">
                                     <div class="content_anchor">播主：{{item.from}}</div>
-                                    <div class="content_anchor_button" v-if="item.status==1">立即预约</div>
-                                    <div class="content_anchor_button" v-if="item.status==2">进入直播</div>
-                                    <div class="content_anchor_button" v-if="item.status==3">下载资料</div>
+                                    <div
+                                        class="content_anchor_button"
+                                        v-if="item.status==1"
+                                        @click="gotodetail(item.id)"
+                                    >立即预约</div>
+                                    <div
+                                        class="content_anchor_button"
+                                        v-if="item.status==2"
+                                        @click="gotodetail(item.id)"
+                                    >进入直播</div>
+                                    <div
+                                        class="content_anchor_button"
+                                        v-if="item.status==3"
+                                        @click="gotodetail(item.id)"
+                                    >下载资料</div>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +67,7 @@
             <div class="content_right">
                 <!-- 右边内容 -->
                 <div class="broadcast">
-                    <el-carousel height="422px">
+                    <el-carousel height="422px" arrow="never">
                         <el-carousel-item v-for="(item,index) in broadcast" :key="index">
                             <img class="broadcast_img" :src="item" />
                         </el-carousel-item>
@@ -67,7 +79,7 @@
                         class="list"
                         v-for="(item,index) in recommendList"
                         :key="index"
-                        @click="gotoDetail(item.id)"
+                        @click="goto(item.id)"
                     >
                         <div class="title">{{item.title}}</div>
                         <div class="anchor">播主：{{item.from}}</div>
@@ -220,6 +232,17 @@ export default {
                     id: id
                 }
             });
+        },
+        gotodetail(id) {
+            this.$router.push({
+                name: "detail",
+                query: {
+                    id: id
+                }
+            });
+        },
+        goto() {
+            window.open("https://www.baidu.com/");
         },
         //axios请求
         histories() {

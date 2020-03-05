@@ -1,6 +1,7 @@
 .home {
     width: 100%;
     background: #fafafa;
+    margin-top: 100px;
 }
 
 //轮播
@@ -8,25 +9,22 @@
     width: 100%;
     height: 400px;
     min-width: 1200px;
+    overflow: hidden;
+    margin: 0px auto;
 
-    .el-carousel__item {
+    .el-carousel {
+        width: 140%;
+        margin-left: -20%;
 
-        // width: 1500px;
-        img {
-            width: 100%;
-            height: 100%;
+        .el-carousel__item {
+
+            // width: 1500px;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+
         }
-
-    }
-
-
-
-    .is-active {
-        // width: 1500px;
-    }
-
-    .el-carousel__item--card {
-        // width: 60%;
     }
 }
 
@@ -56,13 +54,22 @@
                 align-items: center;
 
                 .content_left_list_top_title {
-                    font-family: MicrosoftYaHei-Bold;
-                    font-size: 24px;
-                    font-weight: bold;
+                    font-family: MicrosoftYaHei;
+                    font-size: 16px;
+                    font-weight: normal;
                     font-stretch: normal;
-                    line-height: 24px;
+                    line-height: 16px;
                     letter-spacing: 0px;
-                    color: #222222;
+                    color: #666666;
+                    display: flex;
+
+                    .gotohome {
+                        cursor: pointer;
+                    }
+
+                    .over {
+                        color: #222222;
+                    }
                 }
             }
 
@@ -218,6 +225,7 @@
                                 letter-spacing: 0px;
                                 color: #ffffff;
                                 text-align: center;
+                                cursor: pointer;
                             }
                         }
                     }
@@ -242,7 +250,7 @@
             .recommendList_title {
                 font-family: MicrosoftYaHei-Bold;
                 font-size: 24px;
-                font-weight: normal;
+                font-weight: bold;
                 font-stretch: normal;
                 line-height: 24px;
                 letter-spacing: 0px;
@@ -274,6 +282,7 @@
                     display: -webkit-box;
                     -webkit-box-orient: vertical;
                     -webkit-line-clamp: 1;
+                    cursor: pointer;
                 }
 
                 .anchor {

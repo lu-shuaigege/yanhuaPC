@@ -2,7 +2,7 @@
     <!-- 导航 -->
     <div class="top">
         <div class="top_content">
-            <img class="top_content_img" src="../../assets/img/logo.png" />
+            <img class="top_content_img" src="../../assets/img/logo.png" @click="gotohome()" />
             <div class="top_content_right">
                 <div class="top_content_right_top">研华官方直播平台</div>
                 <div class="top_content_right_bottom">简要文字，介绍平台直播内容</div>
@@ -17,7 +17,13 @@ export default {
         return {};
     },
     created() {},
-    methods: {}
+    methods: {
+        gotohome() {
+            this.$router.push({
+                name: "home"
+            });
+        }
+    }
 };
 </script>
 <style lang="scss" scoped>
@@ -27,6 +33,11 @@ export default {
     height: 100px;
     background-color: #ffffff;
     box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 88;
+    zoom: 1;
 
     .top_content {
         width: 1200px;
