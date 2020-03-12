@@ -102,18 +102,24 @@
             width: 100%;
             position: relative;
             font-size: 0px;
+            height: 642px;
+            display: flex;
+            align-items: center;
+            background: #666;
+            justify-content: center;
 
             .videoImg {
                 width: 100%;
+                height: 100%;
+                object-fit: contain;
             }
 
             .broadcast {
                 position: absolute;
                 width: 60px;
                 height: 61px;
-                top: 48%;
-                left: 48%;
                 z-index: 2;
+                cursor: pointer;
             }
 
             .hui {
@@ -169,7 +175,12 @@
         // height: 70px;
         background-color: #ffffff;
         border-radius: 4px 4px 0px 0px;
-
+        .contain{
+            max-height: 550px;
+            overflow: scroll;
+            
+        }
+        .contain::-webkit-scrollbar {display:none}
         .title {
             width: 700px;
             height: 70px;
@@ -195,7 +206,7 @@
             margin-bottom: 20px;
 
             .item_left {
-                width: 80px;
+                width: 110px;
                 font-family: MicrosoftYaHei;
                 font-size: 18px;
                 font-weight: normal;
@@ -226,6 +237,22 @@
                 box-sizing: border-box;
                 margin-left: 42px;
             }
+            .item_right_sel1{
+                width: 380px;
+                height: 48px;
+                background-color: #ffffff;
+                margin-left: 42px;
+                display: flex;
+                align-items: center;
+                font-size: 18px;
+            }
+            .el-radio__inner{
+                width: 20px !important;
+                height: 20px !important;
+            }
+            .el-radio__label{
+                font-size: 18px !important;
+            }
 
             .item_right_sel {
                 width: 380px;
@@ -233,9 +260,9 @@
                 background-color: #ffffff;
                 margin-left: 42px;
 
-                .container {
+                .containe {
                     width: 380px;
-                    height: 400px;
+                    // height: 400px;
                     overflow: hidden;
 
                     .el-row {

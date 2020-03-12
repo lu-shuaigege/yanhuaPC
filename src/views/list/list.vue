@@ -12,7 +12,7 @@
                 height="400px"
             >
                 <el-carousel-item v-for="(item,index) in banners" :key="index">
-                    <img :src="item" />
+                    <a :href="item.photo_link_url"><img :src="item.photourl" /></a>
                 </el-carousel-item>
             </el-carousel>
         </div>
@@ -24,13 +24,13 @@
                     <div class="content_left_list_top">
                         <div class="content_left_list_top_title">
                             <div class="gotohome" @click="gotohome()">首页></div>
-                            <div class="over">智能制造/智能装备</div>
+                            <div class="over">{{list.name}}</div>
                         </div>
                     </div>
                     <div class="content_left_list_bottom">
                         <div
                             class="content_left_list_bottom_item"
-                            v-for="(item,index) in list"
+                            v-for="(item,index) in list.data"
                             :key="index"
                             @click="gotodetail(item.id)"
                         >
@@ -47,7 +47,7 @@
                                     <div class="content_anchor">播主：{{item.from}}</div>
                                     <div class="content_anchor_button" v-if="item.status==1">立即预约</div>
                                     <div class="content_anchor_button" v-if="item.status==2">进入直播</div>
-                                    <div class="content_anchor_button" v-if="item.status==3">下载资料</div>
+                                    <div class="content_anchor_button" v-if="item.VForm_Download_Flag=='ON'">下载资料</div>
                                 </div>
                             </div>
                         </div>
@@ -65,6 +65,7 @@
                         v-for="(item,index) in recommendList"
                         :key="index"
                         @click="goto(item.id)"
+                        v-show="index<7"
                     >
                         <div class="title">{{item.title}}</div>
                         <div class="anchor">播主：{{item.from}}</div>
@@ -85,393 +86,8 @@ export default {
     data() {
         return {
             id: "1",
-            banners: [
-                require("@/assets/img/banner1.png"),
-                require("@/assets/img/banner2.png"),
-                require("@/assets/img/banner1.png")
-            ], //轮播
-            list: [
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                }
-            ],
-            lists: [
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 1,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 2,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网研华工业物联网研华工业物联网"
-                },
-                {
-                    id: 2,
-                    image: require("@/assets/img/picture.png"),
-                    title:
-                        "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                    status: 3,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网"
-                }
-            ],
+            banners: [], //轮播
+            list: [],
 
             recommendList: [
                 {
@@ -500,7 +116,7 @@ export default {
                     from: "研华工业物联网"
                 }
             ], //专题推荐列表
-            total: 1000, // 记录总条数
+            total: 0, // 记录总条数
             display: 9, // 每页显示条数
             current: 1, // 当前的页数
             category: 1, //一级分类
@@ -515,9 +131,9 @@ export default {
     created() {
         this.id = this.$route.query.id; //列表id
         console.log(this.id);
-        // this.getBanners();
-        // this.getRecommendList();
-        // this.getList();
+        this.getBanners();
+        this.getRecommendList();
+        this.getList();
     },
     mounted() {
         document.documentElement.scrollTop = 0;
@@ -531,8 +147,13 @@ export default {
                 }
             });
         },
-        goto() {
-            window.open("https://www.baidu.com/");
+        goto(id) {
+            this.$router.push({
+                name: "detail",
+                query: {
+                    id: id
+                }
+            });
         },
         gotohome() {
             this.$router.push({
@@ -543,122 +164,36 @@ export default {
         pagechange: function(currentPage) {
             console.log(currentPage);
             this.page = currentPage;
-            if (currentPage == 1) {
-                this.list = this.lists.slice(0, 8);
-            }
-            if (currentPage == 2) {
-                this.list = this.lists.slice(8, 17);
-            }
-            if (currentPage == 3) {
-                this.list = this.lists.slice(17, 26);
-            }
-            if (currentPage == 4) {
-                this.list = this.lists.slice(26, 34);
-            }
             document.documentElement.scrollTop = 0;
 
             // ajax请求, 向后台发送 currentPage, 来获取对应的数据
-            // this.getList();
+            this.getList();
         },
         //轮播图
         getBanners() {
-            this.$api.get("/api/travels/" + this.id, {}, res => {
-                //此处假数据
-                res = {
-                    code: 0,
-                    msg: "操作成功",
-                    data: {
-                        images: [
-                            require("@/assets/img/banner1.png"),
-                            require("@/assets/img/banner2.png"),
-                            require("@/assets/img/banner1.png")
-                        ]
-                    }
-                };
-                if (res.code == 0) {
-                    this.banners = res.data.images;
+            this.$api.get("/video/website/GetBanner", {}, res => {
+                console.log(res)
+                if (res.data.code == 0) {
+                    this.banners = res.data.data;
                 }
             });
         },
         //分类下产品列表
         getList() {
-            this.$api.get("/api/travels/" + this.id, {}, res => {
+            this.$api.get("/video/website/getcontentlist?id=" +this.id, {page: this.page,per_page: 9}, res => {
                 //此处假数据
-                res = {
-                    code: 0,
-                    msg: "操作成功",
-                    data: [
-                        {
-                            id: 1,
-                            image: require("@/assets/img/picture.png"),
-                            title:
-                                "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                            status: 1,
-                            date: "2020-02-20  14:00",
-                            from: "研华工业物联网"
-                        },
-                        {
-                            id: 2,
-                            image: require("@/assets/img/picture.png"),
-                            title:
-                                "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                            status: 2,
-                            date: "2020-02-20  14:00",
-                            from: "研华工业物联网研华工业物联网研华工业物联网"
-                        },
-                        {
-                            id: 2,
-                            image: require("@/assets/img/picture.png"),
-                            title:
-                                "构建云+端感知平台，实现设备远程管理实现设备远程管理",
-                            status: 3,
-                            date: "2020-02-20  14:00",
-                            from: "研华工业物联网"
-                        }
-                    ]
-                };
-                if (res.code == 0) {
-                    this.list = res.data;
+                if (res.data.code == 0) {
+                    this.list = res.data.data;
+                    this.total = this.list.total
                 }
             });
         },
         //专题推荐列表
         getRecommendList() {
-            this.$api.get("/api/travels/" + this.id, {}, res => {
-                //此处假数据
-                res = {
-                    code: 0,
-                    msg: "操作成功",
-                    data: [
-                        {
-                            id: 5,
-                            title: "解构工业物联网数字转型",
-                            from: "研华工业物联网-工业自动化"
-                        },
-                        {
-                            id: 5,
-                            title: "构建云+端感知平台，实现实现实现",
-                            from: "研华工业物联网"
-                        },
-                        {
-                            id: 5,
-                            title: "构建云+端感知平台，实现实现实现",
-                            from: "研华工业物联网"
-                        },
-                        {
-                            id: 5,
-                            title: "构建云+端感知平台，实现实现实现",
-                            from: "研华工业物联网"
-                        },
-                        {
-                            id: 5,
-                            title: "构建云+端感知平台，实现实现实现",
-                            from: "研华工业物联网"
-                        }
-                    ]
-                };
-                if (res.code == 0) {
-                    this.recommendList = res.data;
+            this.$api.get("/video/website/GetRecommend", {}, res => {
+                if (res.data.code == 0) {
+                    console.log(res.data.data)
+                    this.recommendList = res.data.data[0].value;
                 }
             });
         }

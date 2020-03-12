@@ -55,4 +55,8 @@
 // .el-carousel__item--card {
 //     width: 70%;
 // }
+#layui-layer1 > span.layui-layer-setwin > a.layui-layer-ico.layui-layer-close.layui-layer-close2{
+    right: 0px;
+ top: -10px;
+}
 </style>

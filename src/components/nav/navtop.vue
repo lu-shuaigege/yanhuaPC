@@ -2,7 +2,7 @@
     <!-- 导航 -->
     <div class="top">
         <div class="top_content">
-            <img class="top_content_img" src="../../assets/img/logo.svg" @click="gotohome()" />
+            <img class="top_content_img" src="../../assets/img/advantech-logo.svg" @click="gotohome()" />
             <div class="top_content_right">
                 <div class="top_content_right_top">研华官方直播平台</div>
                 <div class="top_content_right_bottom">简要文字，介绍平台直播内容</div>
@@ -50,6 +50,7 @@ export default {
         .top_content_img {
             width: 401px;
             height: 36px;
+            margin-left: -6px;
         }
 
         .top_content_right {

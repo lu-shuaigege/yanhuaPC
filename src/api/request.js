@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 let http = axios.create({
-    baseURL: 'https://admin.umu888.com',
-    withCredentials: false,
+    baseURL: 'http://wechattest.advantech.com.cn',
+    withCredentials: true,
     headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        // 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        'Content-Type': 'application/json',
     },
     // transformRequest: [function (data) {
     //     let newData = '';

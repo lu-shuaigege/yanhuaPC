@@ -2,10 +2,10 @@
     <div class="detail">
         <!-- 导航 -->
         <navtop></navtop>
-        <div class="detail_content">
+        <div class="detail_content" >
             <div class="top">
                 <div class="gohome" @click="gotohome(1)">首页></div>
-                <div class="golist" @click="gotohome(2,details.id)">智能制造/智能装备></div>
+                <div class="golist" @click="gotohome(2,details.type)">{{details.name}}></div>
                 <div class="over">直播详情</div>
             </div>
             <div class="con">
@@ -17,124 +17,97 @@
                             <div class="time">{{details.value.date}}</div>
                         </div>
                     </div>
-                    <div class="right" v-if="details.type==1" @click="gofrom(1)">进入直播</div>
-                    <div class="right" v-if="details.type==2" @click="gofrom(2)">下载资料</div>
-                    <div class="right" v-if="details.type==3" @click="gofrom(3)">预约报名</div>
+                    <div class="right" v-if="details.value.status==2" @click="gofrom(2,details.value.VWebinar_ID)">进入直播</div>
+                    <div class="right" v-if="details.VForm_Download_Flag=='ON'" @click="gofrom(3,details.value.VWebinar_ID,details.VForm_Flag,details.value.id)">下载资料</div>
+                    <div class="right" v-if="details.value.status==1" @click="gofrom(1,details.value.VWebinar_ID)">预约报名</div>
                 </div>
                 <div class="video">
                     <img class="videoImg" :src="details.value.image" />
                     <img
                         class="broadcast"
-                        @click="lookimg(details.type)"
+                        @click="lookimg(details.value.VWebinar_ID)"
                         src="../../assets/img/broadcast.png"
                     />
                     <div class="hui"></div>
                 </div>
                 <div class="word_title">直播详情介绍</div>
-                <div class="word">{{details.value.content}}</div>
+                <div class="word" v-html="details.value.content"></div>
             </div>
         </div>
         <div class="popup" v-if="ispopup==2||ispopup==3">
             <div class="popup_con">
-                <div class="title" v-if="details.type==3">预约报名</div>
-                <div class="title" v-if="details.type==2">下载资料</div>
-                <div class="item">
-                    <div class="item_left">
-                        <div class="star">*</div>
-                        <div class="text">姓名:</div>
+                <!-- <div class="title" v-if="details.value.status==1">预约报名</div> -->
+                <div class="title">下载资料</div>
+                <div class="contain">
+                    <div v-for="(item,index) in FormList" :key="index">
+                        <div class="item" v-if="item.FieldType == 1">
+                            <div class="item_left">
+                                <div class="star" v-if="item.CheckField">*</div>
+                                <div class="text">{{item.FieldTitle}}:</div>
+                            </div>
+                            <input type="text" class="item_right" v-model="item.FValue" />
+                        </div>
+                        <div class="item" v-if="item.FieldType == 2"> 
+                            <div class="item_left">
+                                <div class="star" v-if="item.CheckField">*</div>
+                                <div class="text">性别</div>
+                            </div>
+                            <div class="item_right_sel1">
+                                <el-radio v-model="item.FValue" v-for="(item1,index1) in item.FieldDefValArr" :key="index1" :label="item1">{{item1}}</el-radio>
+                            </div>
+                            
+                        </div>
+                        <div class="item" v-if="item.FieldType == 10">
+                            <div class="item_left">
+                                <div class="star" v-if="item.CheckField">*</div>
+                                <div class="text">所在城市:</div>
+                            </div>
+                            <!-- <input type="text" class="item_right" /> -->
+                            <div class="item_right_sel">
+                                <section class="containe">
+                                    <el-row>
+                                        <el-select
+                                            v-model="provinceValue"
+                                            placeholder="请选择省"
+                                            @change="selectProvimce"
+                                        >
+                                            <el-option
+                                                v-for="(item,index) of provincearr"
+                                                :key="index"
+                                                :label="item.name"
+                                                :value="item.id"
+                                            ></el-option>
+                                        </el-select>
+                                        <el-select
+                                            v-model="item.FValue"
+                                            placeholder="请选择市"
+                                            @change="selectcity"
+                                        >
+                                            <el-option
+                                                v-for="(item,index) of cityarr"
+                                                :key="index"
+                                                :label="item.name"
+                                                :value="item.name"
+                                            ></el-option>
+                                        </el-select>
+                                    </el-row>
+                                </section>
+                            </div>
+                        </div>
                     </div>
-                    <input type="text" class="item_right" v-model="name" />
-                </div>
-                <div class="item">
-                    <div class="item_left">
-                        <div class="star">*</div>
-                        <div class="text">公司:</div>
-                    </div>
-                    <input type="text" class="item_right" v-model="company" />
-                </div>
-                <div class="item">
-                    <div class="item_left">
-                        <div class="star">*</div>
-                        <div class="text">电话:</div>
-                    </div>
-                    <input type="text" class="item_right" v-model="tel" />
-                </div>
-                <div class="item">
-                    <div class="item_left">
-                        <div class="star">*</div>
-                        <div class="text">E-mail:</div>
-                    </div>
-                    <input type="text" class="item_right" v-model="e_mail" />
-                </div>
-                <div class="item">
-                    <div class="item_left">
-                        <div class="star">*</div>
-                        <div class="text">职称:</div>
-                    </div>
-                    <input type="text" class="item_right" v-model="title" />
-                </div>
-                <div class="item">
-                    <div class="item_left">
-                        <!-- <div class="star">*</div> -->
-                        <div class="text">所在城市:</div>
-                    </div>
-                    <!-- <input type="text" class="item_right" /> -->
-                    <div class="item_right_sel">
-                        <section class="container">
-                            <el-row>
-                                <el-select
-                                    v-model="provinceValue"
-                                    placeholder="请选择省"
-                                    @change="selectProvimce"
-                                >
-                                    <el-option
-                                        v-for="(item,index) of provincearr"
-                                        :key="index"
-                                        :label="item.name"
-                                        :value="item.id"
-                                    ></el-option>
-                                </el-select>
-                                <el-select
-                                    v-model="cityValue"
-                                    placeholder="请选择市"
-                                    @change="selectcity"
-                                >
-                                    <el-option
-                                        v-for="(item,index) of cityarr"
-                                        :key="index"
-                                        :label="item.name"
-                                        :value="item.id"
-                                    ></el-option>
-                                </el-select>
-                                <!-- <el-select placeholder="请选择" v-model="RegionValue">
-                            <el-option
-                                v-for="(item,index) of regionarr"
-                                :key="index"
-                                :label="item.name"
-                                :value="item.id"
-                            ></el-option>
-                                </el-select>-->
-                            </el-row>
-                        </section>
+                    <div class="btn">
+                        <div class="btn_left" @click="from(0)">取消</div>
+                        <div class="btn_right" @click="from(1)">确认</div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="item_left">
-                        <!-- <div class="star">*</div> -->
-                        <div class="text">详细地址:</div>
-                    </div>
-                    <input type="text" class="item_right" v-model="detailed_address" />
-                </div>
-                <div class="btn">
-                    <div class="btn_left" @click="from(0)">取消</div>
-                    <div class="btn_right" @click="from(1)">确认</div>
-                </div>
+                
             </div>
         </div>
         <div class="toast" v-if="look==3">直播时间未到，请耐心等待哦！</div>
         <bottom></bottom>
     </div>
 </template>
+
 
 <script>
 // @ is an alias to /src
@@ -148,16 +121,15 @@ export default {
             details: {
                 id: 1,
                 type: 3,
-                name: "智能制造/智能装备",
+                name: "",
                 value: {
                     id: 1,
-                    image: require("@/assets/img/banner1.png"),
-                    title: "构建云+端感知平台，实现设备远程管理",
+                    image: '',
+                    title: "",
                     status: 1,
-                    date: "2020-02-20  14:00",
-                    from: "研华工业物联网",
-                    content:
-                        "能够使用计算机控制手机。可以操纵鼠标，让左/中/右单击，拖动和下降等等"
+                    date: "",
+                    from: "",
+                    content:""
                 }
             },
             ispopup: 0,
@@ -178,7 +150,9 @@ export default {
             title: "",
             province_name: "",
             city_name: "",
-            detailed_address: ""
+            detailed_address: "",
+
+            FormList:""
         };
     },
     components: {
@@ -189,7 +163,8 @@ export default {
         this.provincearr = province;
         this.id = this.$route.query.id; //详情id，根据id获取详情
         console.log(this.id);
-        // this.getDetail(this.id);
+        this.getDetail(this.id);
+        this.getForm()
     },
     mounted() {
         document.documentElement.scrollTop = 0;
@@ -221,7 +196,7 @@ export default {
                 }
             }
         },
-        gotohome(ishome, id) {
+        gotohome(ishome, type) {
             if (ishome == 1) {
                 this.$router.push({
                     name: "home"
@@ -231,118 +206,110 @@ export default {
                 this.$router.push({
                     name: "list",
                     query: {
-                        id: id
+                        id: type
                     }
                 });
             }
         },
-        gofrom(type) {
-            if (type == 2) {
-                this.ispopup = 2;
-            }
+        gofrom(type,VWebinar_ID,VForm_Flag,id) {
             if (type == 3) {
-                this.ispopup = 2;
+                if(VForm_Flag == 'ON'){
+                    this.ispopup = 2;
+                }else{
+                    // window.open("http://wechattest.advantech.com.cn/video/website/Vjump?id="+id);
+                    // xadmin.open('','http://wechattest.advantech.com.cn/video/website/Vjump?id='+id,'','',true)
+                    location.href ="http://wechattest.advantech.com.cn/video/website/Vjump?id="+id;
+
+                }
+                
+            }else{
+                // xadmin.open('','http://wechattest.advantech.com.cn/video/website/Vjump?id='+id,'','',true)
+                xadmin.open('','https://live.vhall.com/'+VWebinar_ID,'','',true)
+
             }
         },
         lookimg(look) {
-            if (look == 3) {
-                this.look = 3;
-            }
-            setTimeout(() => {
-                this.look = 0;
-            }, 2000);
+            xadmin.open('','https://live.vhall.com/'+look,'','',true)
+            // window.open("https://live.vhall.com/"+look);
+            
         },
         from(isfrom) {
             if (isfrom == 0) {
                 this.ispopup = 0;
+                for (let i = 0; i < this.FormList.length; i++){
+                    delete(this.FormList[i].FValue)
+                    this.provinceValue = ''
+                }
+                console.log(this.FormList)
             }
             if (isfrom == 1) {
-                if (!this.name) {
-                    this.$toast("请填写姓名");
-                    return;
+                console.log(this.FormList)
+
+                for (let i = 0; i < this.FormList.length; i++) { 
+                    if(this.FormList[i].CheckField&&!this.FormList[i].FValue){
+                        this.$toast("请输入"+this.FormList[i].FieldTitle);
+                        return
+                    }
+                    if(this.FormList[i].FieldTitle == "手机"&&!/^1[3456789]\d{9}$/.test(this.FormList[i].FValue)){
+                        this.$toast("手机号格式不正确");
+                        return
+                    }
+                    if(this.FormList[i].FieldTitle == "邮箱"&&!/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(this.FormList[i].FValue)){
+                        this.$toast("邮箱格式不正确");
+                        return
+                    }
                 }
-                if (!this.company) {
-                    this.$toast("请填写公司");
-                    return;
-                }
-                if (!this.title) {
-                    this.$toast("请填写职称");
-                    return;
-                }
-                let regphone = /^((0\d{2,3}-?\d{7,8})|(1[3456789]\d{9}))$/;
-                if (!regphone.test(this.tel)) {
-                    this.$toast("电话格式不正确");
-                    return;
-                }
-                if (!this.e_mail) {
-                    this.$toast("请填写电子邮箱");
-                    return;
-                }
-                let checkEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-                if (!checkEmail.test(this.e_mail)) {
-                    this.$toast("电子邮箱格式不正确");
-                    return;
-                }
-                this.ispopup = 0;
+                console.log(this.FormList)
+                this.$api.post("/video/website/FormRegister", {vid: this.id, Info: this.FormList}, res => {
+                    console.log(res)
+                    if (res.data.Message == "操作成功") {
+                        this.$toast("提交成功");
+                        location.href ="http://wechattest.advantech.com.cn/video/website/Vjump?id="+this.id;
+                        // xadmin.open('','http://wechattest.advantech.com.cn/video/website/Vjump?id='+this.id,'','',true)
+                        this.ispopup = 0;
+                        for (let i = 0; i < this.FormList.length; i++){
+                            // this.FormList[i].FValue = ''
+                            delete(this.FormList[i].FValue)
+                            this.provinceValue = ''
+                        }
+                    }
+                });
+
             }
         },
 
         //详情数据
         getDetail(id) {
-            console.log(id);
-            this.$api.get("/api/travels/" + this.id, {}, res => {
-                //此处假数据
-                res = {
-                    code: 0,
-                    msg: "操作成功",
-                    data:
-                        // {
-                        //     "id":1,
-                        //     "type":1,
-                        //     "name": "智能制造/智能装备",
-                        //     "image": require("@/assets/img/picture.png"),
-                        //     "title": "构建云+端感知平台，实现设备远程管理",
-                        //     "status":2,
-                        //     "date":"2020-02-20  14:00",
-                        //     "from":"研华工业物联网",
-                        //     "content":"能够使用计算机控制手机。可以操纵鼠标，让左/中/右单击，拖动和下降等等"
-                        // },
-                        {
-                            id: 1,
-                            type: 1,
-                            name: "智能制造/智能装备",
-                            value: [
-                                {
-                                    id: 1,
-                                    image: require("@/assets/img/picture.png"),
-                                    title:
-                                        "构建云+端感知平台，实现设备远程管理",
-                                    status: 1,
-                                    date: "2020-02-20  14:00",
-                                    from: "研华工业物联网",
-                                    content:
-                                        "能够使用计算机控制手机。可以操纵鼠标，让左/中/右单击，拖动和下降等等"
-                                }
-                            ]
-                        }
-                };
-                if (res.code == 0) {
-                    this.details = res.data;
+            console.log(id)
+            this.$api.get("/video/website/getcontentdetail?id=" + this.id, {}, res => {
+                
+                if (res.data.code == 0) {
+                    this.details = res.data.data;
                 }
             });
         },
-
-        //去播放
-        toPlay(status) {
-            if (status == 1) {
-                this.$toast("直播时间未到，请耐心等待哦！");
-            } else {
-                window.open("https://www.baidu.com/");
-            }
-        }
+        //获取表单数据
+        getForm(){
+            this.$api.get("/video/website/getform", {}, res => {
+                if (res.data.code == 0) {
+                    this.FormList = res.data.data;
+                    console.log(this.FormList)
+                }
+            });
+        },
     }
 };
 </script>
+<style>
+.el-radio__inner{
+    width: 20px !important;
+    height: 20px !important;
+}
+.el-radio__label{
+    font-size: 18px !important;
+}
+</style>
 <style lang="scss" scoped>
 @import "./detail.scss";
+
 </style>
