@@ -12,7 +12,9 @@
                 height="400px"
             >
                 <el-carousel-item v-for="(item,index) in banners" :key="index">
-                    <a :href="item.photo_link_url"><img :src="item.photourl" /></a>
+                    <a :href="item.photo_link_url">
+                        <img :src="item.photourl" />
+                    </a>
                 </el-carousel-item>
             </el-carousel>
         </div>
@@ -47,7 +49,10 @@
                                     <div class="content_anchor">播主：{{item.from}}</div>
                                     <div class="content_anchor_button" v-if="item.status==1">立即预约</div>
                                     <div class="content_anchor_button" v-if="item.status==2">进入直播</div>
-                                    <div class="content_anchor_button" v-if="item.VForm_Download_Flag=='ON'">下载资料</div>
+                                    <div
+                                        class="content_anchor_button"
+                                        v-if="item.VForm_Download_Flag=='ON'"
+                                    >下载资料</div>
                                 </div>
                             </div>
                         </div>
@@ -138,6 +143,17 @@ export default {
     mounted() {
         document.documentElement.scrollTop = 0;
     },
+    watch: {
+        "$route.path": function(newVal, oldVal) {
+            console.log(newVal);
+            console.log(oldVal);
+            // if (newVal === "/login") {
+            //     console.log("欢迎进入login");
+            // } else if (newVal === "/register") {
+            //     console.log("欢迎进入register");
+            // }
+        }
+    },
     methods: {
         gotodetail(id) {
             this.$router.push({
@@ -172,7 +188,7 @@ export default {
         //轮播图
         getBanners() {
             this.$api.get("/video/website/GetBanner", {}, res => {
-                console.log(res)
+                console.log(res);
                 if (res.data.code == 0) {
                     this.banners = res.data.data;
                 }
@@ -180,19 +196,23 @@ export default {
         },
         //分类下产品列表
         getList() {
-            this.$api.get("/video/website/getcontentlist?id=" +this.id, {page: this.page,per_page: 9}, res => {
-                //此处假数据
-                if (res.data.code == 0) {
-                    this.list = res.data.data;
-                    this.total = this.list.total
+            this.$api.get(
+                "/video/website/getcontentlist?id=" + this.id,
+                { page: this.page, per_page: 9 },
+                res => {
+                    //此处假数据
+                    if (res.data.code == 0) {
+                        this.list = res.data.data;
+                        this.total = this.list.total;
+                    }
                 }
-            });
+            );
         },
         //专题推荐列表
         getRecommendList() {
             this.$api.get("/video/website/GetRecommend", {}, res => {
                 if (res.data.code == 0) {
-                    console.log(res.data.data)
+                    console.log(res.data.data);
                     this.recommendList = res.data.data[0].value;
                 }
             });

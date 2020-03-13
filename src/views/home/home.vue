@@ -12,7 +12,9 @@
                 height="400px"
             >
                 <el-carousel-item v-for="(item,index) in banners" :key="index" v-show="index<5">
-                    <a :href="item.photo_link_url"><img :src="item.photourl" /></a>
+                    <a :href="item.photo_link_url">
+                        <img :src="item.photourl" />
+                    </a>
                 </el-carousel-item>
             </el-carousel>
         </div>
@@ -20,7 +22,12 @@
         <div class="content">
             <!-- 左边内容 -->
             <div class="content_left">
-                <div class="content_left_list" v-for="(item,index) in typeList" :key="index" v-show="item.value.length">
+                <div
+                    class="content_left_list"
+                    v-for="(item,index) in typeList"
+                    :key="index"
+                    v-show="item.value.length"
+                >
                     <div class="content_left_list_top">
                         <div class="content_left_list_top_title">{{item.name}}</div>
                         <div class="more" @click="more(item.id)">更多</div>
@@ -46,7 +53,10 @@
                                     <div class="content_anchor">播主：{{item1.from}}</div>
                                     <div class="content_anchor_button" v-if="item1.status==1">立即预约</div>
                                     <div class="content_anchor_button" v-if="item1.status==2">进入直播</div>
-                                    <div class="content_anchor_button" v-if="item1.VForm_Download_Flag=='ON'">下载资料</div>
+                                    <div
+                                        class="content_anchor_button"
+                                        v-if="item1.VForm_Download_Flag=='ON'"
+                                    >下载资料</div>
                                 </div>
                             </div>
                         </div>
@@ -58,8 +68,14 @@
                 <!-- 右边内容 -->
                 <div class="broadcast">
                     <el-carousel height="422px" arrow="never">
-                        <el-carousel-item v-for="(item,index) in broadcast" :key="index" v-show="index<3">
-                            <a :href="item.photo_link_url"><img class="broadcast_img" :src="item.photourl" /></a>
+                        <el-carousel-item
+                            v-for="(item,index) in broadcast"
+                            :key="index"
+                            v-show="index<3"
+                        >
+                            <a :href="item.photo_link_url">
+                                <img class="broadcast_img" :src="item.photourl" />
+                            </a>
                         </el-carousel-item>
                     </el-carousel>
                 </div>
@@ -110,6 +126,17 @@ export default {
     mounted() {
         document.documentElement.scrollTop = 0;
     },
+    watch: {
+        "$route.path": function(newVal, oldVal) {
+            console.log(newVal);
+            console.log(oldVal);
+            // if (newVal === "/login") {
+            //     console.log("欢迎进入login");
+            // } else if (newVal === "/register") {
+            //     console.log("欢迎进入register");
+            // }
+        }
+    },
     methods: {
         more(id) {
             this.$router.push({
@@ -150,7 +177,7 @@ export default {
         //首页轮播图
         getBanners() {
             this.$api.get("/video/website/GetBanner", {}, res => {
-                console.log(res)
+                console.log(res);
                 if (res.data.code == 0) {
                     this.banners = res.data.data;
                 }
@@ -176,7 +203,7 @@ export default {
         getRecommendList() {
             this.$api.get("/video/website/GetRecommend", {}, res => {
                 if (res.data.code == 0) {
-                    console.log(res.data.data)
+                    console.log(res.data.data);
                     this.recommendList = res.data.data[0].value;
                 }
             });

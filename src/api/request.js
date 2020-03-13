@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 let http = axios.create({
-    baseURL: 'http://wechattest.advantech.com.cn',
+    // baseURL: 'http://wechattest.advantech.com.cn',
     withCredentials: true,
     headers: {
         // 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
